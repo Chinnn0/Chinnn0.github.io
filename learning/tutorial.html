@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Git、HTML5、CSS、JSON、Ajax 與 jQuery 的 AI 教學及可操作示範。">
+  <title>Web Lab 2 AI 教學與實作講義</title>
+  <link rel="stylesheet" href="tutorial.css">
+  <script src="../vendor/jquery.min.js" defer></script>
+  <script src="tutorial.js" defer></script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="wrap">
+      <p class="eyebrow">WEB FUNDAMENTALS · LAB 2</p>
+      <h1>從版本管理到互動網頁</h1>
+      <p class="intro">Git、HTML5、CSS、JSON、Ajax 與 jQuery 的 AI 教學與實作講義</p>
+      <p class="byline">黃翌晉 · GitHub <a href="https://github.com/Chinnn0">Chinnn0</a></p>
+    </div>
+  </header>
+  <nav class="chapter-nav" aria-label="課程章節">
+    <div class="wrap nav-items">
+      <a href="#git">01 Git</a><a href="#html">02 HTML5</a><a href="#css">03 CSS</a>
+      <a href="#json">04 JSON</a><a href="#ajax">05 Ajax</a><a href="#jquery">06 jQuery</a>
+    </div>
+  </nav>
+  <main class="wrap">
+    <section class="orientation" aria-labelledby="how-to-title">
+      <h2 id="how-to-title">如何使用這份講義</h2>
+      <p>先閱讀概念與範例，再操作示範並修改程式，最後嘗試小練習。程式、解說與示範由 AI 協助製作；頁面上的操作結果只表示示範測試的狀態，不代表讀者已完成課程、取得證書或通過測驗。</p>
+      <p>六種技術在個人網站中的分工：<strong>Git 管理修改，HTML 組織內容，CSS 安排外觀，JSON 儲存作品資料，Ajax 讀取資料，jQuery 處理請求與畫面互動。</strong></p>
+      <p>建議由 HTTP 網址開啟本頁及網站。直接以 <code>file://</code> 開啟時，瀏覽器可能阻擋 Ajax 讀取本機 JSON；這是存取方式的限制。</p>
+    </section>
+
+    <section id="git" class="lesson" aria-labelledby="git-title">
+      <div class="lesson-heading"><span class="number">01</span><div><p class="eyebrow">VERSION CONTROL</p><h2 id="git-title">Git 與 GitHub</h2></div></div>
+      <p><strong>Git</strong> 是版本控制工具，能在本機記錄檔案修改、比較版本與管理分支。<strong>GitHub</strong> 是託管 Git 儲存庫的服務，提供遠端備份、協作和 GitHub Pages 等功能。執行 <code>git commit</code> 只建立本機版本；執行 <code>git push</code> 才把提交傳到遠端。</p>
+      <h3>從第一個版本到功能分支</h3>
+      <p>以下指令在練習資料夾內執行。建立檔案的步驟可使用文字編輯器完成；身分設定只作用於這個儲存庫，請填入自己的 GitHub 使用者名稱及 GitHub 提供的 noreply 電子郵件。</p>
+      <pre><code>git init -b main
+git config user.name "你的 GitHub 使用者名稱"
+git config user.email "你的 GitHub noreply 電子郵件"
+
+# 使用編輯器新增 README.md 並儲存
+git status
+git add README.md
+git commit -m "Add project introduction"
+git log --oneline
+
+# 建立並切換至 feature-notes 分支
+git switch -c feature-notes
+# 修改 README.md，加入一段學習筆記後儲存
+git add README.md
+git commit -m "Add learning notes"
+git switch main
+git merge feature-notes
+git log --oneline --graph --all
+git status</code></pre>
+      <p class="expected"><strong>預期結果：</strong>可以看到兩次提交；合併後 main 包含新增的學習筆記，最後的工作目錄沒有尚未提交的修改。提交雜湊與分支顯示依實際操作而不同。</p>
+      <h3>連接 GitHub 並推送</h3>
+      <p>在 GitHub 建立空的遠端儲存庫後，把下面的遠端網址換成實際網址。若 origin 已存在，先使用 <code>git remote -v</code> 檢查，不要重複新增。登入與權限驗證依自己的帳號設定進行。</p>
+      <pre><code>git remote add origin https://github.com/你的帳號/你的儲存庫.git
+git remote -v
+git push -u origin main</code></pre>
+      <p><code>git add</code> 把目前的修改放入暫存區；<code>git commit</code> 把暫存區內容記為一個版本；<code>git log</code> 檢查提交紀錄。不要把密碼、權杖或私鑰加入版本庫。</p>
+      <p><a href="https://github.com/Chinnn0/Chinnn0.github.io/commits/main/">查看本次網站的 GitHub 提交紀錄 →</a></p>
+      <details id="git-exercise"><summary>小練習：commit 後又修改 README，遠端會自動更新嗎？</summary><p>不會。新的檔案修改尚未進入上一筆提交。需要再執行 <code>git add README.md</code>、<code>git commit -m "Update README"</code>，最後 <code>git push</code>。可用 <code>git status</code> 與 <code>git log --oneline</code> 檢查。</p></details>
+      <p class="source">延伸閱讀：<a href="https://git-scm.com/docs">Git 官方指令文件</a></p>
+    </section>
+
+    <section id="html" class="lesson" aria-labelledby="html-title">
+      <div class="lesson-heading"><span class="number">02</span><div><p class="eyebrow">STRUCTURE & SEMANTICS</p><h2 id="html-title">HTML5 組織內容</h2></div></div>
+      <p>HTML 使用標籤描述內容的意義。個人網站可用 <code>header</code> 放頁首、<code>nav</code> 放導覽、<code>main</code> 放主要內容，並以 <code>section</code> 與 <code>article</code> 組織主題和作品。標題應依內容層級排列。</p>
+      <pre><code>&lt;section aria-labelledby="works-title"&gt;
+  &lt;h2 id="works-title"&gt;我的作品&lt;/h2&gt;
+  &lt;label for="search"&gt;搜尋作品&lt;/label&gt;
+  &lt;input id="search" type="search" placeholder="輸入作品名稱"&gt;
+  &lt;article&gt;
+    &lt;h3&gt;個人網頁&lt;/h3&gt;
+    &lt;p&gt;使用 HTML5 和 CSS 建立的頁面。&lt;/p&gt;
+  &lt;/article&gt;
+&lt;/section&gt;</code></pre>
+      <div class="demo" id="html-demo">
+        <p class="demo-label">可操作示範 · HTML 表單與語意內容</p>
+        <label for="demo-name">想放在作品卡上的標題</label>
+        <div class="form-row"><input id="demo-name" value="我的第一個網頁" maxlength="30"><button id="update-title" type="button">更新預覽</button></div>
+        <article class="preview-card"><img src="demo-icon.svg" alt="以大括號表示的網頁程式圖示" width="48" height="48"><div><h3 id="preview-title">我的第一個網頁</h3><p>這張卡片使用 article、標題與段落組織內容。</p></div></article>
+        <p id="html-status" class="status" role="status">尚未操作。輸入標題，再按「更新預覽」。</p>
+      </div>
+      <p class="expected"><strong>預期結果：</strong>更新後，卡片標題顯示輸入的文字。<code>label</code> 的 <code>for</code> 對應輸入欄位的 <code>id</code>；有資訊意義的圖片提供替代文字 <code>alt</code>，純裝飾圖片可用空的 alt。</p>
+      <details id="html-exercise"><summary>小練習：如何讓點擊「搜尋作品」文字也能聚焦輸入欄位？</summary><p>讓 <code>&lt;label for="search"&gt;</code> 的 for 值與 <code>&lt;input id="search"&gt;</code> 的 id 相同。表單控制項仍應有清楚的可見標籤，不能只依賴 placeholder。</p></details>
+      <p class="source">延伸閱讀：<a href="https://developer.mozilla.org/zh-TW/docs/Web/HTML">MDN HTML 文件</a></p>
+    </section>
+
+    <section id="css" class="lesson" aria-labelledby="css-title">
+      <div class="lesson-heading"><span class="number">03</span><div><p class="eyebrow">LAYOUT & RESPONSIVENESS</p><h2 id="css-title">CSS 與響應式排版</h2></div></div>
+      <p>CSS 透過選擇器指定樣式。<code>.project-card</code> 選取 class，<code>#preview-title</code> 選取 id。盒模型包含內容、padding、border 與 margin；<code>box-sizing: border-box</code> 讓指定寬度包含 padding 與 border，便於控制版面。</p>
+      <pre><code>* { box-sizing: border-box; }
+.projects {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+.project-card { padding: 1rem; border: 1px solid #cbd5df; }
+@media (max-width: 700px) {
+  .projects { grid-template-columns: 1fr; }
+}</code></pre>
+      <div class="demo" id="css-demo">
+        <p class="demo-label">可操作示範 · CSS Grid</p>
+        <div class="button-row"><button id="layout-wide" type="button" aria-pressed="true">寬版預覽</button><button id="layout-narrow" type="button" class="secondary" aria-pressed="false">窄版預覽</button></div>
+        <div id="layout-frame" class="layout-frame"><div class="demo-projects"><article>HTML<br><span>內容結構</span></article><article>CSS<br><span>版面與樣式</span></article><article>jQuery<br><span>畫面互動</span></article></div></div>
+        <p id="css-status" class="status" role="status">目前為寬版容器；視窗夠寬時以三欄排列。</p>
+      </div>
+      <p class="expected"><strong>預期結果：</strong>按「窄版預覽」後卡片改為單欄；按「寬版預覽」恢復。示範以容器寬度搭配 container query 呈現局部縮放；實際網站也使用 media query 因應瀏覽器視窗寬度。</p>
+      <details id="css-exercise"><summary>小練習：畫面小於 700px 時，如何讓作品卡變成單欄？</summary><p>在 <code>@media (max-width: 700px)</code> 中將 <code>.projects</code> 的 <code>grid-template-columns</code> 設為 <code>1fr</code>。請另外檢查文字、按鈕與導覽是否會超出畫面。</p></details>
+      <p class="source">延伸閱讀：<a href="https://developer.mozilla.org/zh-TW/docs/Web/CSS">MDN CSS 文件</a></p>
+    </section>
+
+    <section id="json" class="lesson" aria-labelledby="json-title">
+      <div class="lesson-heading"><span class="number">04</span><div><p class="eyebrow">STRUCTURED DATA</p><h2 id="json-title">JSON 儲存作品資料</h2></div></div>
+      <p>JSON 是文字資料格式，可表示物件、陣列、字串、數字、布林值與 null。物件的鍵與字串必須使用雙引號，不能加註解或尾端逗號，也不能直接存函式。<code>JSON.parse()</code> 把 JSON 文字轉成 JavaScript 資料；<code>JSON.stringify()</code> 做反方向的轉換。</p>
+      <pre><code>{
+  "title": "個人網頁",
+  "category": "web",
+  "tags": ["HTML5", "CSS", "jQuery"],
+  "published": true
+}</code></pre>
+      <div class="demo" id="json-demo">
+        <p class="demo-label">可操作示範 · 實際執行 JSON.parse</p>
+        <label for="json-input">JSON 文字</label>
+        <textarea id="json-input" rows="5" spellcheck="false">{"title":"個人網頁","tags":["HTML5","CSS","jQuery"]}</textarea>
+        <div class="button-row"><button id="parse-json" type="button">解析 JSON</button><button id="valid-json" type="button" class="secondary">載入正確範例</button><button id="invalid-json" type="button" class="secondary">測試尾端逗號錯誤</button></div>
+        <pre id="json-output" class="result" aria-live="polite">尚未解析。請按「解析 JSON」。</pre>
+      </div>
+      <p class="expected"><strong>預期結果：</strong>正確範例顯示解析後的內容；尾端逗號範例顯示解析失敗。錯誤訊息依瀏覽器而不同。程式使用 try/catch 處理例外，避免一筆錯誤資料中斷其他功能。</p>
+      <details id="json-exercise"><summary>小練習：{ 'title': '作品', } 哪裡不符合 JSON？</summary><p>鍵與字串使用了單引號，且最後一個欄位後多了逗號。正確寫法是 <code>{"title":"作品"}</code>。</p></details>
+      <p class="source">延伸閱讀：<a href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/JSON">MDN JSON 文件</a></p>
+    </section>
+
+    <section id="ajax" class="lesson" aria-labelledby="ajax-title">
+      <div class="lesson-heading"><span class="number">05</span><div><p class="eyebrow">ASYNCHRONOUS REQUESTS</p><h2 id="ajax-title">Ajax 非同步讀取資料</h2></div></div>
+      <p>Ajax 是在背景發送 HTTP 請求、收到回應後更新部分畫面的做法，不是另一種程式語言。名稱雖包含 XML，實務上也能傳送或接收 JSON。非同步表示請求開始後，頁面不必等待回應才處理其他操作；結果要在成功或失敗的回呼中使用。</p>
+      <pre><code>$.getJSON('../data/projects.json')
+  .done(function (data) {
+    // 資料抵達後，在這裡更新畫面
+  })
+  .fail(function () {
+    // 顯示錯誤並提供重試
+  });</code></pre>
+      <div class="demo" id="ajax-demo">
+        <p class="demo-label">可操作示範 · 同源 JSON 請求</p>
+        <p>資料來源：<code>../data/projects.json</code>。此區會發送真正的 HTTP 請求，沒有內建成功結果。</p>
+        <div class="button-row"><button id="load-projects" type="button">讀取作品 JSON</button><button id="test-missing" type="button" class="secondary">測試不存在的檔案</button></div>
+        <p id="ajax-status" class="status" role="status">尚未發送請求。</p>
+        <ul id="ajax-projects" class="loaded-projects"></ul>
+      </div>
+      <p class="expected"><strong>預期結果：</strong>正常讀取時顯示作品筆數與名稱；測試不存在的檔案時顯示失敗與 HTTP 狀態。按「讀取作品 JSON」可重試。請留意 Network 面板中的實際狀態碼；GitHub Pages 的純靜態網站可直接供應 JSON，無需執行後端程式。</p>
+      <details id="ajax-exercise"><summary>小練習：為什麼不能在 $.getJSON 下一行就假設 data 已取得？</summary><p>請求完成的時間不固定，下一行通常會先執行。應在 <code>.done(function(data) {...})</code> 內處理資料，並在 <code>.fail()</code> 處理找不到檔案、網路或解析錯誤。</p></details>
+      <p class="source">延伸閱讀：<a href="https://api.jquery.com/jQuery.getJSON/">jQuery.getJSON 官方文件</a>、<a href="https://api.jquery.com/jQuery.ajax/">jQuery.ajax 官方文件</a></p>
+    </section>
+
+    <section id="jquery" class="lesson" aria-labelledby="jquery-title">
+      <div class="lesson-heading"><span class="number">06</span><div><p class="eyebrow">EVENTS & DOM</p><h2 id="jquery-title">jQuery 選取元素與處理事件</h2></div></div>
+      <p>jQuery 是 JavaScript 函式庫，<code>$('.card')</code> 選取 class 為 card 的元素，<code>.on('click', ...)</code> 綁定點擊事件，<code>.text()</code> 更新文字，<code>.slideToggle()</code> 展開或收合內容。要使用 Ajax，需載入包含 Ajax 的完整版本；slim 版本不包含 Ajax。</p>
+      <pre><code>$('#toggle-note').on('click', function () {
+  const expanded = $(this).attr('aria-expanded') === 'true';
+  $(this).attr('aria-expanded', String(!expanded));
+  $('#jquery-note').stop(true, true).slideToggle(150);
+});
+
+// 顯示輸入值時使用 text，避免把文字當成 HTML 執行
+$('#result').text(userInput);</code></pre>
+      <div class="demo" id="jquery-demo">
+        <p class="demo-label">可操作示範 · 事件、動畫與文字篩選</p>
+        <p id="jquery-version" class="status">正在檢查本地 jQuery。</p>
+        <button id="toggle-note" type="button" aria-expanded="false" aria-controls="jquery-note">展開／收合說明</button>
+        <div id="jquery-note" class="jquery-note" style="display:none"><p>這段內容由 jQuery 的 click 事件觸發 slideToggle。aria-expanded 同步反映開合狀態。可以用鍵盤 Tab 移到按鈕，再按 Enter 操作。</p></div>
+        <label for="filter-demo">篩選技術名稱</label>
+        <input id="filter-demo" type="search" placeholder="例如：JSON" autocomplete="off">
+        <ul id="technology-list" class="technology-list"><li>Git 版本管理</li><li>HTML5 語意結構</li><li>CSS 響應式排版</li><li>JSON 資料格式</li><li>Ajax 非同步請求</li><li>jQuery 事件處理</li></ul>
+        <p id="filter-status" class="status" role="status">目前顯示 6 項技術。</p>
+      </div>
+      <p class="expected"><strong>預期結果：</strong>點擊按鈕能展開與收合說明，輸入 JSON 後清單只保留相符項目。這些操作使用本地 jQuery 實際執行；若函式庫未載入，本頁會顯示錯誤並停用需要 jQuery 的示範。</p>
+      <details id="jquery-exercise"><summary>小練習：為何顯示使用者輸入時，這裡使用 text()？</summary><p><code>.text()</code> 把輸入當成普通文字。若直接用 <code>.html()</code> 拼接不可信的輸入，瀏覽器可能把它當成標籤或可執行內容。作品資料也應使用文字節點建立 DOM。</p></details>
+      <p class="source">延伸閱讀：<a href="https://api.jquery.com/on/">jQuery.on 官方文件</a>、<a href="https://api.jquery.com/text/">jQuery.text 官方文件</a></p>
+    </section>
+
+    <section class="review" aria-labelledby="review-title">
+      <h2 id="review-title">回到個人網站檢查</h2>
+      <ol><li>用 Git 確認網站檔案已提交，並在 GitHub 檢查遠端內容。</li><li>檢查 HTML 標題、導覽、圖片替代文字與輸入欄位標籤。</li><li>縮小視窗，觀察 CSS 是否調整欄數、文字與按鈕是否超出。</li><li>打開 JSON，檢查作品欄位與語法。</li><li>重新讀取作品資料，檢查載入成功與錯誤提示。</li><li>操作 jQuery 搜尋、分類與展開，確認畫面符合預期。</li></ol>
+      <p><a class="site-link" href="../index.html">開啟個人網站實作 →</a></p>
+      <p>建議保存閱讀教材、修改程式及操作結果的實際截圖，並說明 AI 協助的範圍。只保留真實操作證據，學習心得請依自己的理解與經驗調整。</p>
+    </section>
+  </main>
+  <footer class="wrap"><p>AI 教學與協作實作教材 · Web 基本原理與技術 Lab 2</p><a href="#">回到頁首 ↑</a></footer>
+</body>
+</html>
