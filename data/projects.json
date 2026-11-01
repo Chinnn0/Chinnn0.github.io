@@ -1,0 +1,40 @@
+{
+  "projects": [
+    {
+      "id": "personal-page",
+      "category": "web",
+      "title": "個人網站與響應式排版",
+      "description": "用清楚的頁面結構介紹自己，透過不同尺寸的版面，練習從桌面到手機的閱讀體驗。",
+      "tags": ["HTML5", "CSS", "Responsive"],
+      "details": [
+        "以 header、nav、main、section、article、footer 組織內容，讓每個區塊的用途清楚。",
+        "CSS Grid 與 Flexbox 負責排列，media query 在窄螢幕改成單欄，避免內容擠在一起。",
+        "保留鍵盤焦點樣式與跳至主要內容連結，讓基本操作能使用鍵盤完成。"
+      ]
+    },
+    {
+      "id": "ajax-projects",
+      "category": "data",
+      "title": "JSON 作品資料與互動篩選",
+      "description": "將作品內容存成 JSON，以 Ajax 讀取資料，再用 jQuery 實現分類、搜尋與說明展開。",
+      "tags": ["JSON", "Ajax", "jQuery"],
+      "details": [
+        "$.ajax 以 GET 方式讀取同源 data/projects.json，成功後依資料建立作品卡片，整頁不需重新整理。",
+        "分類按鈕與搜尋文字一起決定顯示結果；搜尋不到資料時，顯示空結果提示與清除篩選按鈕。",
+        "資料載入失敗時保留錯誤提示與重試入口；建立文字內容時使用 .text()，避免把資料當成 HTML 執行。"
+      ]
+    },
+    {
+      "id": "git-workflow",
+      "category": "git",
+      "title": "Git 版本管理與網站發布",
+      "description": "以本次網站為例，整理檔案、記錄修改，並練習將靜態網站部署到 GitHub Pages 的流程。",
+      "tags": ["Git", "GitHub", "GitHub Pages"],
+      "details": [
+        "Git 用來記錄檔案修改；GitHub 提供遠端儲存庫，兩者的用途相互配合。",
+        "基本流程為 git status 檢查狀態、git add 加入暫存區、git commit 建立紀錄，再透過 git log 查看歷史。",
+        "GitHub Pages 提供靜態網站託管；HTML、CSS、JavaScript 與 JSON 以相對路徑連結，方便在網站網址下共同運作。"
+      ]
+    }
+  ]
+}
